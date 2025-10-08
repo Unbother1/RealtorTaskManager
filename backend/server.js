@@ -17,7 +17,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
 //DB Connection
-
+//console.log("Loaded MONGO_URI:", process.env.MONGO_URI ? "Found!" : "Missing!" )
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.error("DB Error:", err));
