@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require ("jsonwebtoken");
 const Task = require("../models/Task");
+
 const router = express.Router();
 
 //Middleware to Verify JWT
@@ -11,7 +12,7 @@ function authMiddleware(req, res, next) {
 
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = verified; //attach user info to request
+        req.user = { id: verified.id}; //attach user info to request
         next();
     } catch (err) {
         res.status(400).json({ error: "invalid token"});
@@ -22,9 +23,11 @@ function authMiddleware(req, res, next) {
 
 router.get("/", authMiddleware, async (req, res) => {
     try {
+        console.log("Fetching tasks for user:", req.user.id);
         const tasks = (await Task.find({ userId: req.user.id})).sort({dueDate: 1});
         res.json(tasks);
     } catch (err) {
+        console.error("TASK FETCH ERROR:", err);
         res.status(500).json({ error: err.message});
     }
 })
