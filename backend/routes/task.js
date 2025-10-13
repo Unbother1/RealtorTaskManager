@@ -24,7 +24,7 @@ function authMiddleware(req, res, next) {
 router.get("/", authMiddleware, async (req, res) => {
     try {
         console.log("Fetching tasks for user:", req.user.id);
-        const tasks = (await Task.find({ userId: req.user.id})).sort({dueDate: 1});
+        const tasks = await Task.find({ userId: req.user.id}).sort({dueDate: 1});
         res.json(tasks);
     } catch (err) {
         console.error("TASK FETCH ERROR:", err);
