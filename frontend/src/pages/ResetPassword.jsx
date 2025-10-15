@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 
-export default function ResetPassword() {
+function ResetPassword() {
     const { token } = useParams();
     const navigate = useNavigate();
     const [password, setPassword] = useState("");
@@ -18,7 +18,7 @@ export default function ResetPassword() {
 
         setLoading(true);
         try {
-            const res = await axios.post(`http://localhost:5000/api/users/reset-password/${token}`, { password });
+            const res = await axios.post(`http://localhost:5000/api/users/reset-password${token}`, { password });
             setMessage(res.data.message);
             setTimeout(() => navigate("/login"), 2000);
         } catch (err) {
@@ -32,7 +32,7 @@ export default function ResetPassword() {
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
         <form onSubmit={handleSubmit} className='bg-white p-4 rounded-2xl shadow-lg w-96'>
             <h2 className='text-2xl font-semibold text-center mb-2'>Reset Password</h2>
-            <div>
+            <div className='relative mb-2'>
                 <input 
                 type={showPassword ? "text" : "password"} 
                 value={password} 
@@ -45,12 +45,12 @@ export default function ResetPassword() {
                 <button
                 type='button'
                 onClick={() => setShowPassword(!showPassword)}
-                className='absolute right-3 top-2.5 text-gray-500'>
+                className='absolute right-2 top-2 text-gray-500'>
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
             </div>
             
-            <div>
+            <div className='relative mb-2'>
                 <input 
                 type={showPassword ? "text" : "password"} 
                 value={confirm}
@@ -63,14 +63,18 @@ export default function ResetPassword() {
                 <button
                 type='button'
                 onClick={() => setShowPassword(!showPassword)}
-                className='absolute right-3 top-2.5 text-gray-500'
+                className='absolute right-2 top-2 text-gray-500'
                 >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
 
             </div>
 
-            <button type='submit' disabled={loading} className='w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition'>
+            <button 
+            type='submit' 
+            disabled={loading} 
+            className='w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition'
+            >
                 {loading ? "Resetting..." : "Reset Password"}
             </button>
 
@@ -82,3 +86,4 @@ export default function ResetPassword() {
   )
 }
 
+export default ResetPassword;

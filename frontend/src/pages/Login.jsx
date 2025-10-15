@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import ForgotPassword from "./ForgotPassword";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -51,20 +52,25 @@ const Login = () => {
           <button 
           type="button" 
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-3 text-gray-500"
+          className="absolute right-2 top-2 text-gray-500"
           >
             { showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </div>
 
         {/*Forgot Password link */}
-        <div className="text-right mb2">
-          <Link to="//forgot-password" className="text-blue-500 hover:text-blue-700 text-sm" >Forgot Pasword?</Link>
+        <div className="text-right mb-2">
+          <Link 
+          to={"/forgot-password"}
+          className="text-blue-500 hover:text-blue-700 text-sm"
+          >
+            Forgot Pasword?
+          </Link>
         </div>
 
         <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" type="submit">Login</button>
         <p>{message}</p>
-        <p className="text-center">Don’t have an account? <Link to="/register"><a href="#" className="text-blue-500 hover:text-blue-700">Register</a> </Link></p>
+        <p className="text-center">Don’t have an account? <Link to="/register" className="text-blue-500 hover:text-blue-700">Register</Link></p>
       </form>
 
 

@@ -35,8 +35,8 @@ router.post("/register", async(req, res) => {
 
         // Hash password before saving
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ email, password: hashedPassword });
+        //const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ email, password });
         await user.save();
 
         //Generate 30-day tasks
@@ -60,24 +60,24 @@ router.post("/register", async(req, res) => {
 //Login
 
 router.post("/login", async (req, res) => {
+    const {email, password} = req.body;
     try {
-         const {email, password} = req.body;
          const user = await User.findOne({email});
          
          if (!user) {
-            return res.status(400).json({error: "Invalid Credentials"});
+            return res.status(400).json({error: "User not found Please Signup"});
         }
 
         // Campare password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ error: "Invalid credentials"});
+            return res.status(400).json({ error: "Invalid password"});
         }
 
         // Generate token
 
         const token = jwt.sign(
-            { id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" }
+            { id: user._id, email:user.email }, process.env.JWT_SECRET, { expiresIn: "1d" }
         );
         
         res.json({token});
@@ -97,11 +97,11 @@ router.post("/forgot-password", async (req, res) => {
         //Generate token
         const token = crypto.randomBytes(32).toString("hex");
         user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() = 3600000 // 1hour
+        user.resetPasswordExpires = Date.now() = 3600000 //1hour
         await user.save();
 
         // send email with link
-        const resetLink = `http://localhost:5173/reset-password/${token}`;
+        const resetLink = `http://localhost:5173/reset-password${token}`;
 
         //Replace this with your real email credentials or mailtrap
         const transporter = nodemailer.createTransport({
@@ -126,7 +126,7 @@ router.post("/forgot-password", async (req, res) => {
     }
 });
 
-router.post("/reset-password/:token", async (req, res) => {
+router.post("/reset-password:token", async (req, res) => {
     try {
         const user = await User.findOne({
             resetPasswordToken: req.params.token,

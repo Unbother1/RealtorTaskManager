@@ -28,10 +28,24 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen bg-orange-200">
       <form className="bg-orange-100 p-8 rounded-xl shadow-md w-full max-w-sm" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
-        <input className="w-full p-1 border rounded mb-1 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" name="username" placeholder="Username" onChange={handleChange} required /><br /><br />
-        <input className="w-full p-1 border rounded mb-1 focus:outline-none focus:ring-2 focus:ring-blue-500" type="email" name="email" placeholder="Email" onChange={handleChange} required /><br /><br />
+        <input 
+        className="w-full p-1 border rounded mb-1 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        type="text" name="username" 
+        placeholder="Username" 
+        onChange={handleChange} 
+        required 
+        /><br /><br />
+
+        <input 
+        className="w-full p-1 border rounded mb-1 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        type="email" 
+        name="email" 
+        placeholder="Email" 
+        onChange={handleChange} 
+        required 
+        /><br /><br />
         
-        <div>
+        <div className="relative mb-2">
           <input 
           className="w-full p-1 border rounded mb-1 focus:outline-none focus:ring-2 focus:ring-blue-500" 
           type={showPassword ? "text" : "password"} 
@@ -43,7 +57,7 @@ const Register = () => {
           <button 
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="relative left-72 text-gray-500"
+          className="absolute right-2 top-2 text-gray-500"
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
@@ -51,7 +65,7 @@ const Register = () => {
         </div>
         <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" type="submit" >Register</button>
         <p>{message}</p>
-        <p className="text-center">Already have an account? <Link to="/"><a href="#" className="text-blue-500 hover:text-blue-700">Login</a></Link></p>
+        <p className="text-center">Already have an account? <Link to="/" className="text-blue-500 hover:text-blue-700">Login</Link></p>
       </form>
     </div>
   );

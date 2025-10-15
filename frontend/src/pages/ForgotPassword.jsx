@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export default function ForgotPassword() {
+function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,6 +16,7 @@ export default function ForgotPassword() {
         try {
             const res = await axios.post("localhost:5000/api/users/forgot-password", { email });
             setMessage(res.data.message);
+            setTimeout(() => navigate("/"));
         } catch (err) {
             setMessage(err.response?.data?.error || "Something went wrong");
         } finally {
@@ -39,7 +42,13 @@ export default function ForgotPassword() {
                 required
                 />
 
-                <button type="submit" disabled={loading} className="w-full bg-blue-600 text white py-2 rounded-lg hover:bg-blue-700 transition">{loading ? "Sending..." : "Send Reset Link"}</button>
+                <button 
+                type="submit" 
+                disabled={loading} 
+                className="w-full bg-blue-600 text white py-2 rounded-lg hover:bg-blue-700 transition"
+                >
+                    {loading ? "Sending..." : "Send Reset Link"}
+                </button>
 
                 {message && (
                     <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
@@ -49,3 +58,5 @@ export default function ForgotPassword() {
         </div>
     )
 }
+
+export default ForgotPassword;
